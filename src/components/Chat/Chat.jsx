@@ -31,7 +31,7 @@ export default function Chat() {
                     </button>
                     <div className={cx("button-emoj")}>
                         <div className={cx("emoij-wp")}>
-                            <Picker data={data} onEmojiSelect={console.log} />
+                            {/* <Picker data={data} onEmojiSelect={console.log} /> */}
                         </div>
                         <button>
                             <i className="bi bi-emoji-smile"></i>

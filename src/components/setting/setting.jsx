@@ -1,9 +1,10 @@
 import classNames from "classnames/bind";
 
 import styles from "./setting.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AccountItem from "../AccountItem";
 import { useRef, useState } from "react";
+import { toggleSetting } from "../../features/app/appSlice";
 const cx = classNames.bind(styles);
 
 const a = [
@@ -120,6 +121,7 @@ const a = [
 
 export default function Setting() {
     const isOpenSetting = useSelector((state) => state.app.isOpenSetting);
+    const dispatch = useDispatch();
 
     const [edit, setIsEdit] = useState(false);
     const refInput = useRef(null);
@@ -132,6 +134,10 @@ export default function Setting() {
         }
     };
 
+    const handleClick = () => {
+        dispatch(toggleSetting());
+    };
+
     return (
         <div className={cx("wp", `${isOpenSetting ? "active" : "disable"}`)}>
             <div
@@ -140,7 +146,7 @@ export default function Setting() {
                     "d-flex py-3 gap-2 justify-content-between px-2 align-items-center"
                 )}
             >
-                <button className="btn">
+                <button className="btn" onClick={handleClick}>
                     <i className="bi bi-x"></i>
                 </button>
                 <h4>Group Info</h4>
@@ -206,6 +212,7 @@ export default function Setting() {
                                     img={item.img}
                                     lastMsg={item.lastMsg}
                                     key={index}
+                                    isShowMenu={false}
                                 />
                             ))}
                         </div>

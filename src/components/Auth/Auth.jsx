@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import classNames from "classnames/bind";
 
 import bgAuth from "../../assets/img/bg-auth.png";
@@ -5,17 +6,21 @@ import styles from "./auth.module.scss";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IconFacebookAuth, IconGoogleAuth, IconTwitterAuth } from "../icons";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../features/user/userSlice";
 
 const cx = classNames.bind(styles);
 
 export default function Auth() {
+    const dispatch = useDispatch();
+
     const [isLoginComponent, setIsLoginComponent] = useState(false);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
-    const handleValidate = () => {
-        const arrValidate = [email, password];
+    const handleValidate = (arrValidate = []) => {
         let isValid = true;
 
         for (let i = 0; i < arrValidate.length; i++) {
@@ -27,6 +32,32 @@ export default function Auth() {
         }
 
         return isValid;
+    };
+
+    const handleValidLoginAndRegister = (user) => {
+        dispatch(loginSuccess(user));
+    };
+
+    const handleSubmit = (type = "login") => {
+        /* handleValidLoginAndRegister dispatch user dang nhap */
+
+        if (type === "login") {
+            const check = handleValidate([email, password, phoneNumber]);
+
+            if (!check) return;
+
+            /* call api here */
+            /* handleValidLoginAndRegister() */
+        }
+
+        if (type === "register") {
+            const check = handleValidate([email, password]);
+
+            if (!check) return;
+
+            /* call api here */
+            /* handleValidLoginAndRegister() */
+        }
     };
 
     return (
@@ -59,7 +90,8 @@ export default function Auth() {
                                 {isLoginComponent ? (
                                     <div
                                         className={cx(
-                                            "chuk-jax-auth login-jax"
+                                            "chuk-jax-auth",
+                                            " login-jax"
                                         )}
                                     >
                                         <div
@@ -103,6 +135,10 @@ export default function Auth() {
                                         >
                                             <label>Email</label>
                                             <input
+                                                value={email}
+                                                onChange={(e) =>
+                                                    setEmail(e.target.value)
+                                                }
                                                 className={cx(
                                                     "jsx-input-authentication"
                                                 )}
@@ -112,6 +148,10 @@ export default function Auth() {
                                         <div className="jsx-parents-input-and-label login">
                                             <label>Password</label>
                                             <input
+                                                value={password}
+                                                onChange={(e) =>
+                                                    setPassword(e.target.value)
+                                                }
                                                 type="password"
                                                 className={cx(
                                                     "jsx-input-authentication"
@@ -134,7 +174,13 @@ export default function Auth() {
                                                 "login"
                                             )}
                                         >
-                                            <button>Đăng Nhập</button>
+                                            <button
+                                                onClick={() =>
+                                                    handleSubmit("login")
+                                                }
+                                            >
+                                                Đăng Nhập
+                                            </button>
                                         </div>
                                     </div>
                                 ) : (
@@ -186,6 +232,10 @@ export default function Auth() {
                                         >
                                             <label>Email</label>
                                             <input
+                                                value={email}
+                                                onChange={(e) =>
+                                                    setEmail(e.target.value)
+                                                }
                                                 className={cx(
                                                     "jsx-input-authentication"
                                                 )}
@@ -200,6 +250,10 @@ export default function Auth() {
                                         >
                                             <label>Password</label>
                                             <input
+                                                value={password}
+                                                onChange={(e) =>
+                                                    setPassword(e.target.value)
+                                                }
                                                 type="password"
                                                 className={cx(
                                                     "jsx-input-authentication"
@@ -209,12 +263,39 @@ export default function Auth() {
                                         </div>
                                         <div
                                             className={cx(
+                                                "jsx-parents-input-and-label",
+                                                "login"
+                                            )}
+                                        >
+                                            <label>phoneNumber</label>
+                                            <input
+                                                value={phoneNumber}
+                                                onChange={(e) =>
+                                                    setPhoneNumber(
+                                                        e.target.value
+                                                    )
+                                                }
+                                                type="text"
+                                                className={cx(
+                                                    "jsx-input-authentication"
+                                                )}
+                                                placeholder="Nhập số điện thoại của bạn"
+                                            />
+                                        </div>
+                                        <div
+                                            className={cx(
                                                 "text-center",
                                                 "button-submit-jsx",
                                                 "login"
                                             )}
                                         >
-                                            <button>Đăng ký</button>
+                                            <button
+                                                onClick={() =>
+                                                    handleSubmit("register")
+                                                }
+                                            >
+                                                Đăng ký
+                                            </button>
                                         </div>
                                     </div>
                                 )}

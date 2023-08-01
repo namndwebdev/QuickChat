@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import styles from "./accountItem.module.scss";
 import { useDispatch } from "react-redux";
-import { toggleSetting } from "../../features/app/appSlice";
+import { toggleSetting, toggleSideBarFunc } from "../../features/app/appSlice";
 const cx = classNames.bind(styles);
 
 AccountItem.PropTypes = {
@@ -22,6 +22,8 @@ export default function AccountItem({
     timeOfflineOrMember = "",
     className = "",
     isHeader = false,
+    isShowMenu = true,
+    onClick = () => {},
 }) {
     const dispatch = useDispatch();
 
@@ -29,14 +31,27 @@ export default function AccountItem({
         dispatch(toggleSetting());
     };
 
+    const handleClick = () => {
+        dispatch(toggleSideBarFunc());
+    };
+
     return (
         <div
+            onClick={onClick}
             className={cx(
                 "item-chat",
                 `${isHeader ? "shadown-cs" : ""}`,
                 className
             )}
         >
+            {isShowMenu && (
+                <button
+                    onClick={handleClick}
+                    className={cx("btn", "pe-3", "hidden-pc")}
+                >
+                    <i className="bi bi-menu-button-wide-fill"></i>
+                </button>
+            )}
             <img src={img} alt="Hình ảnh avatar" />
             <div className={cx("info-and-time")}>
                 <div>
@@ -53,7 +68,7 @@ export default function AccountItem({
                         <span className={cx("badge-custom")}>20</span>
                     </div>
                 ) : (
-                    <div className="d-flex flex-row gap-4 pe-5 text-lg h5">
+                    <div className="d-flex flex-row gap-4 pe-5 text-lg h5 no-padding-right">
                         <p>
                             <i className="bi bi-telephone"></i>
                         </p>

@@ -50,3 +50,26 @@ html *::-webkit-scrollbar-track {
         color    : #666;
     }
 }
+
+@media (min-width: 900px) {
+    .hidden-pc {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hidden-mb {
+        display: none;
+    }
+}
+
+.limit-height {
+    height  : 100vh;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .no-padding-right {
+        padding-right: 0 !important;
+    }
+}

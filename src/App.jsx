@@ -9,16 +9,26 @@ import Auth from "./components/Auth/Auth.jsx";
 
 function App() {
     //useSelector((state) => state.user.isLogin);
-    const isLogin = true;
+    const toggleSideBar = useSelector((state) => state.app.toggleSideBar);
+    const isLogin = false;
 
     return (
         <main>
             {isLogin ? (
-                <Row>
-                    <Col md={3} className="pe-0">
+                <Row className="limit-height">
+                    {toggleSideBar && (
+                        <Col sm={12} className="pe-0 hidden-pc">
+                            <SideBar isMobile />
+                        </Col>
+                    )}
+                    <Col md={3} sm={0} className="pe-0 hidden-mb">
                         <SideBar />
                     </Col>
-                    <Col md={9} className="d-flex justify-content-between ps-0">
+                    <Col
+                        md={9}
+                        sm={12}
+                        className="d-flex justify-content-between ps-0 pe-0"
+                    >
                         <div className="flex-w100 flex-grow-1 h-100">
                             <AccountItem
                                 className="py-3 custom-header-account"
